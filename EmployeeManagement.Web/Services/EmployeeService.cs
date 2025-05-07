@@ -39,19 +39,6 @@ namespace EmployeeManagement.Web.Services
             return JsonConvert.DeserializeObject<EmployeeViewModel>(content);
         }
 
-        public async Task<IEnumerable<EmployeeViewModel>> SearchEmployeesAsync(string searchTerm)
-        {
-            var response = await _httpClient.GetAsync($"{_baseUrl}/search?term={Uri.EscapeDataString(searchTerm)}");
-
-            if (!response.IsSuccessStatusCode)
-                return Enumerable.Empty<EmployeeViewModel>();
-
-            var content = await response.Content.ReadAsStringAsync();
-            var employees = JsonConvert.DeserializeObject<IEnumerable<EmployeeViewModel>>(content);
-
-            return employees ?? Enumerable.Empty<EmployeeViewModel>();
-        }
-
         public async Task<EmployeeViewModel> CreateEmployeeAsync(CreateEmployeeViewModel createEmployeeViewModel)
         {
             var content = new StringContent(

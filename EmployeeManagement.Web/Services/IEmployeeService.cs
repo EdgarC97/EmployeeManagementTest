@@ -9,6 +9,5 @@ namespace EmployeeManagement.Web.Services
         Task<EmployeeViewModel> CreateEmployeeAsync(CreateEmployeeViewModel createEmployeeViewModel);
         Task<EmployeeViewModel?> UpdateEmployeeAsync(UpdateEmployeeViewModel updateEmployeeViewModel);
         Task<bool> DeleteEmployeeAsync(int id);
-        Task<IEnumerable<EmployeeViewModel>> SearchEmployeesAsync(string searchTerm);
     }
 }
