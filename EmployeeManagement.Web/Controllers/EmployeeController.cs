@@ -50,9 +50,9 @@ namespace EmployeeManagement.Web.Controllers
                     await _employeeService.CreateEmployeeAsync(createEmployeeViewModel);
                     return RedirectToAction(nameof(Index));
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    ModelState.AddModelError("", $"Unable to create employee: {ex.Message}");
+                    ModelState.AddModelError("", "Unable to create employee.");
                 }
             }
             return View(createEmployeeViewModel);
@@ -98,9 +98,9 @@ namespace EmployeeManagement.Web.Controllers
                     await _employeeService.UpdateEmployeeAsync(updateEmployeeViewModel);
                     return RedirectToAction(nameof(Index));
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    ModelState.AddModelError("", $"Unable to update employee: {ex.Message}");
+                    ModelState.AddModelError("", "Unable to update employee.");
                 }
             }
             return View(updateEmployeeViewModel);

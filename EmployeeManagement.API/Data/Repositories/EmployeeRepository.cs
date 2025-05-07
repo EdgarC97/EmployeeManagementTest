@@ -115,9 +115,7 @@ namespace EmployeeManagement.API.Data.Repositories
         {
             // Soft delete - just update IsActive to false
             using var cmd = await _db.CreateCommandAsync(@"
-                UPDATE Employees
-                SET IsActive = 0,
-                    UpdatedAt = @UpdatedAt
+                DELETE FROM Employees
                 WHERE Id = @Id");
 
             cmd.Parameters.AddWithValue("@Id", id);

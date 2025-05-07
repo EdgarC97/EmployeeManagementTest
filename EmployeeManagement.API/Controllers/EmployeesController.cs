@@ -41,15 +41,8 @@ namespace EmployeeManagement.API.Controllers
         [HttpPost]
         public async Task<ActionResult<EmployeeDto>> CreateEmployee(CreateEmployeeDto createEmployeeDto)
         {
-            try
-            {
-                var createdEmployee = await _employeeService.CreateEmployeeAsync(createEmployeeDto);
-                return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.Id }, createdEmployee);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var createdEmployee = await _employeeService.CreateEmployeeAsync(createEmployeeDto);
+            return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.Id }, createdEmployee);
         }
 
         // PUT: api/Employees/5
@@ -58,38 +51,29 @@ namespace EmployeeManagement.API.Controllers
         {
             if (id != updateEmployeeDto.Id)
             {
-                return BadRequest("ID mismatch");
+                return BadRequest();
             }
 
-            try
+            var updatedEmployee = await _employeeService.UpdateEmployeeAsync(updateEmployeeDto);
+            if (updatedEmployee == null)
             {
-                var updatedEmployee = await _employeeService.UpdateEmployeeAsync(updateEmployeeDto);
-
-                if (updatedEmployee == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(updatedEmployee);
+                return NotFound();
             }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+
+            return Ok(updatedEmployee);
         }
 
         // DELETE: api/Employees/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
-            var result = await _employeeService.DeleteEmployeeAsync(id);
-
-            if (!result)
+            var success = await _employeeService.DeleteEmployeeAsync(id);
+            if (!success)
             {
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok();
         }
     }
 }

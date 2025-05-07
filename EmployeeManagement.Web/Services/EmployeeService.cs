@@ -23,6 +23,7 @@ namespace EmployeeManagement.Web.Services
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
+
             var employees = JsonConvert.DeserializeObject<IEnumerable<EmployeeViewModel>>(content);
 
             return employees ?? Enumerable.Empty<EmployeeViewModel>();
