@@ -19,12 +19,19 @@ namespace EmployeeManagement.API.Services
         public async Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync()
         {
             var employees = await _employeeRepository.GetActiveEmployeesAsync();
-            return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+
+            return employees
+                .Where(e => e.IsActive)
+                .OrderBy(e => e.LastName)
+                .ThenBy(e => e.FirstName)
+                .Select(e => _mapper.Map<EmployeeDto>(e))
+                .ToList();
         }
 
         public async Task<EmployeeDto?> GetEmployeeByIdAsync(int id)
         {
             var employee = await _employeeRepository.GetByIdAsync(id);
+
             if (employee == null || !employee.IsActive)
                 return null;
 
@@ -79,6 +86,20 @@ namespace EmployeeManagement.API.Services
         public async Task<bool> DeleteEmployeeAsync(int id)
         {
             return await _employeeRepository.DeleteAsync(id);
+        }
+        public async Task<IEnumerable<EmployeeDto>> SearchEmployeesAsync(string searchTerm)
+        {
+            var allEmployees = await _employeeRepository.GetAllAsync();
+
+            return allEmployees
+                .Where(e => e.IsActive &&
+                           (e.FirstName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                            e.LastName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                            e.IdentificationNumber.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))
+                .OrderBy(e => e.LastName)
+                .ThenBy(e => e.FirstName)
+                .Select(e => _mapper.Map<EmployeeDto>(e))
+                .ToList();
         }
     }
 }
