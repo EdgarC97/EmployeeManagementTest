@@ -87,19 +87,5 @@ namespace EmployeeManagement.API.Services
         {
             return await _employeeRepository.DeleteAsync(id);
         }
-        public async Task<IEnumerable<EmployeeDto>> SearchEmployeesAsync(string searchTerm)
-        {
-            var allEmployees = await _employeeRepository.GetAllAsync();
-
-            return allEmployees
-                .Where(e => e.IsActive &&
-                           (e.FirstName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                            e.LastName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                            e.IdentificationNumber.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))
-                .OrderBy(e => e.LastName)
-                .ThenBy(e => e.FirstName)
-                .Select(e => _mapper.Map<EmployeeDto>(e))
-                .ToList();
-        }
     }
 }

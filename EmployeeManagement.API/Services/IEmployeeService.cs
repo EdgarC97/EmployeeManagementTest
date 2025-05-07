@@ -9,6 +9,5 @@ namespace EmployeeManagement.API.Services
         Task<EmployeeDto> CreateEmployeeAsync(CreateEmployeeDto createEmployeeDto);
         Task<EmployeeDto?> UpdateEmployeeAsync(UpdateEmployeeDto updateEmployeeDto);
         Task<bool> DeleteEmployeeAsync(int id);
-        Task<IEnumerable<EmployeeDto>> SearchEmployeesAsync(string searchTerm);
     }
 }
