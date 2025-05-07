@@ -14,7 +14,7 @@ namespace EmployeeManagement.Web.Services
             _httpClient = httpClient;
             _baseUrl = Environment.GetEnvironmentVariable("API_BASE_URL") ??
                       configuration["ApiSettings:BaseUrl"] ??
-                      "https://localhost:7000/api/employees";
+                      "https://localhost:5041/api/employees";
         }
 
         public async Task<IEnumerable<EmployeeViewModel>> GetAllEmployeesAsync()
